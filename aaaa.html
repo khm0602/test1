@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>오늘의 운세</title>
+
+<style>
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto;
+  background: #f5f6f8;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+}
+
+h1 {
+  margin-bottom: 30px;
+}
+
+.container {
+  display: flex;
+  gap: 30px;
+}
+
+.card {
+  width: 200px;
+  height: 280px;
+  perspective: 1000px;
+  cursor: pointer;
+}
+
+.card-inner {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  transition: transform 0.7s;
+  transform-style: preserve-3d;
+}
+
+.card.flipped .card-inner {
+  transform: rotateY(180deg);
+}
+
+.card-face {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border-radius: 16px;
+  backface-visibility: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  box-sizing: border-box;
+  text-align: center;
+}
+
+.card-front {
+  background: #ffffff;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.good .card-front {
+  color: #2ecc71;
+}
+
+.bad .card-front {
+  color: #e74c3c;
+}
+
+.card-back {
+  background: #ffffff;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+  transform: rotateY(180deg);
+  font-size: 15px;
+  line-height: 1.6;
+}
+
+button {
+  margin-top: 30px;
+  padding: 12px 24px;
+  border: none;
+  border-radius: 8px;
+  background: #111;
+  color: #fff;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+button:hover {
+  opacity: 0.85;
+}
+</style>
+</head>
+
+<body>
+
+<h1>🔮 오늘의 운세</h1>
+
+<div class="container">
+  <div class="card good" onclick="flipCard(this, 'good')">
+    <div class="card-inner">
+      <div class="card-face card-front">좋은 카드</div>
+      <div class="card-face card-back" id="goodText"></div>
+    </div>
+  </div>
+
+  <div class="card bad" onclick="flipCard(this, 'bad')">
+    <div class="card-inner">
+      <div class="card-face card-front">조심 카드</div>
+      <div class="card-face card-back" id="badText"></div>
+    </div>
+  </div>
+</div>
+
+<button onclick="resetCards()">다시 뽑기</button>
+
+<script>
+const goodFortunes = [
+  "오늘은 예상치 못한 기회가 찾아옵니다.",
+  "작은 선택이 큰 행운으로 이어집니다.",
+  "노력한 만큼 결과가 보이는 날입니다.",
+  "주변 사람의 도움이 큰 힘이 됩니다.",
+  "미뤄두었던 일이 순조롭게 풀립니다.",
+  "기분 좋은 소식을 들을 가능성이 큽니다.",
+  "새로운 아이디어가 떠오르는 날입니다.",
+  "당신의 매력이 자연스럽게 드러납니다.",
+  "금전적으로 작은 이득이 있습니다.",
+  "오늘의 결정은 후회가 적습니다."
+];
+
+const badFortunes = [
+  "서두르면 실수가 생길 수 있습니다.",
+  "말 한마디로 오해가 생길 수 있습니다.",
+  "집중력이 흐트러질 수 있는 날입니다.",
+  "감정적인 판단은 피하는 게 좋습니다.",
+  "작은 약속도 소홀히 하지 마세요.",
+  "피곤함이 쌓이기 쉬운 하루입니다.",
+  "지출을 다시 한 번 점검하세요.",
+  "지나친 자신감은 독이 될 수 있습니다.",
+  "타인의 말에 휘둘리지 마세요.",
+  "오늘은 쉬어가는 선택도 필요합니다."
+];
+
+// 100개로 확장
+while (goodFortunes.length < 100) {
+  goodFortunes.push(`행운 포인트 ${goodFortunes.length + 1}: 긍정적인 흐름이 이어집니다.`);
+}
+while (badFortunes.length < 100) {
+  badFortunes.push(`주의 포인트 ${badFortunes.length + 1}: 작은 부분을 놓치지 마세요.`);
+}
+
+function randomPick(arr) {
+  return arr[Math.floor(Math.random() * arr.length)];
+}
+
+function flipCard(card, type) {
+  if (card.classList.contains("flipped")) return;
+
+  if (type === "good") {
+    document.getElementById("goodText").innerText = randomPick(goodFortunes);
+  } else {
+    document.getElementById("badText").innerText = randomPick(badFortunes);
+  }
+
+  card.classList.add("flipped");
+}
+
+function resetCards() {
+  document.querySelectorAll(".card").forEach(card => {
+    card.classList.remove("flipped");
+  });
+}
+</script>
+
+</body>
+</html>
